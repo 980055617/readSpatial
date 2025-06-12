@@ -1,32 +1,28 @@
-//
-//  main.swift
-//  read_heif
-//
-//  Created by 長尾確 on 2024/07/12.
-//
 import Foundation
-import ArgumentParser // Available from Apple: https://github.com/apple/swift-argument-parser
+import ArgumentParser
 
 @main
-struct SideBySideToMVHEVC: AsyncParsableCommand {
+struct SideBySideBatch: AsyncParsableCommand {
+    @Option(help: "Input directory path (default: input)")
+    var inputDir: String = "input"
 
-    @Argument(help: "The MV-HEVC video file to convert.")
-    var sideBySideVideoPath: String
+    @Option(help: "Output directory path (default: output)")
+    var outputDir: String = "output"
 
     mutating func run() async throws {
+        let fm = FileManager.default
+        let inURL = URL(fileURLWithPath: inputDir)
+        let outURL = URL(fileURLWithPath: outputDir)
+        let files = try fm.contentsOfDirectory(at: inURL,
+                                              includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension.lowercased() == "mov" }
 
-        // Determine an appropriate output file URL.
-        let inputURL = URL(fileURLWithPath: sideBySideVideoPath)
-        let converter = try await SideBySideConverter(from: inputURL)
-
-        // Perform the video conversion.
-        await converter.transcodeToTwoSight(output: inputURL)
-        print("two sight video written to \(inputURL).")
-
+        for file in files {
+            let converter = try await SideBySideConverter(from: file)
+            let base = file.deletingPathExtension().lastPathComponent
+            let outFile = outURL.appendingPathComponent(base + "_sideBySide.mov")
+            try await converter.transcodeToSideBySide(output: outFile)
+            print("Processed: \(file.lastPathComponent)")
+        }
     }
-
 }
-
-
-
-
