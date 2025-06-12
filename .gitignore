@@ -1,21 +1,24 @@
-# Xcode
-build/
-DerivedData/
-*.xcworkspace
-*.xcuserstate
-*.xcuserdata
-*.xcodeproj/project.xcworkspace/xcuserdata
-*.xcodeproj/xcuserdata
-*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
-
-# SwiftPM
-.swiftpm/
+# Swift Package Manager
 .build/
-Package.resolved
+.swiftpm/
 
-# macOS特有
+# Keep the root Package.resolved for reproducible builds
+# (do NOT ignore root Package.resolved)
+
+# Xcode
+DerivedData/
+*.xcworkspace            # ワークスペース（CocoaPods など使わないなら不要）
+xcuserdata/              # 個人設定
+*.xcuserstate            # 個人設定
+*.xcscmblueprint         # ソース管理の個人用設定
+
+# Xcode-generated SwiftPM inside workspace
+read_heif.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+read_heif.xcodeproj/project.xcworkspace/xcuserdata/
+
+# macOS Finder
 .DS_Store
 
-# Input/Output files (optional: if large or generated)
+# Input/Output folders (大容量ファイルを管理しない場合)
 input/
 output/
