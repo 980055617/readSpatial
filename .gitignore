@@ -1,2 +1,21 @@
-input/*
-output/*
+# Xcode
+build/
+DerivedData/
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
+
+# SwiftPM
+.swiftpm/
+.build/
+Package.resolved
+
+# macOS特有
+.DS_Store
+
+# Input/Output files (optional: if large or generated)
+input/
+output/
